@@ -14,13 +14,14 @@ class HotelsListScreen extends StatelessWidget {
     var heightOfDevice = MediaQuery.of(context).size.height;
     var widthOfDevice = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: CurvedAppBar(elevation: 20, title: '', actions: [
+      appBar: CurvedAppBar( actions: [
         ///Filter Button
         Spacer(),
         FiltersButton(
           onTap: () {
             showModalBottomSheet(
                 context: context,
+                enableDrag: false,
                 isScrollControlled: true,
                 builder: (context) {
                   List squaresColors=[Colors.red,Colors.orange,Colors.green,Colors.green[700],Colors.green[900],];
@@ -29,145 +30,148 @@ class HotelsListScreen extends StatelessWidget {
                   return FittedBox(
                     child: Container(
                       decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12))),
-                      height: heightOfDevice>750? heightOfDevice* 0.8:heightOfDevice*0.95,
+                      height: heightOfDevice>750? heightOfDevice* 0.9:heightOfDevice*0.95,
                       width: widthOfDevice,
                       child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                         ShowModalAppBar(widthOfDevice: widthOfDevice),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              ///Price Per Night
-                              Row(
-                                children: [
-                                  Text(
-                                    "PRICE PER NIGHT",
-                                    style: Constants.appbarTxtStyle
-                                        .copyWith(color: Colors.black,letterSpacing: 1),
-                                  ),
-                                  const Spacer(),
-                                  Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
-                                        borderRadius:
-                                            const BorderRadius.all(Radius.circular(5)),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          '540 + \$',
-                                          style: Constants.appbarTxtStyle
-                                              .copyWith(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w400),
+                          child: Container(
+                            height: heightOfDevice>600?heightOfDevice*0.6:300,
+                            child: ListView(
+                              children: [
+                                ///Price Per Night
+                                Row(
+                                  children: [
+                                    Text(
+                                      "PRICE PER NIGHT",
+                                      style: Constants.appbarTxtStyle
+                                          .copyWith(color: Colors.black,letterSpacing: 1),
+                                    ),
+                                    const Spacer(),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.black),
+                                          borderRadius:
+                                              const BorderRadius.all(Radius.circular(5)),
                                         ),
-                                      )),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            '540 + \$',
+                                            style: Constants.appbarTxtStyle
+                                                .copyWith(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+
+                                ///Slider
+                                StatefulBuilder(
+                                  builder: (BuildContext context, setState) {
+                                    return Slider(
+                                      min: 26,
+                                      max: 540,
+                                      // divisions: 50,
+                                      thumbColor: Colors.white,
+                                      label: priceValue.round().toString(),
+                                      value: priceValue,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          priceValue = value;
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
+                                const Row(
+                                children: [
+                                  Text('26 \$'),
+                                  Spacer(),
+                                  Text('540 \$'),
+
                                 ],
                               ),
+                                const SizedBox(height: 20,),
+                                ///Rating
+                                Align(alignment: Alignment.centerLeft,child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                  child: Text('RATING',style:Constants.appbarTxtStyle.copyWith(color: Colors.black,letterSpacing: 1) ,),
+                                )),
+                                FittedBox(
+                                  child: SizedBox(
+                                    width: widthOfDevice,
+                                    child: Row(
+                                      children: [
+                                        const Spacer(),
+                                        for(int i=0;i<5;i++)
+                                          widthOfDevice>400?Padding(
+                                            padding:i==0?EdgeInsets.only(right: widthOfDevice*0.04):EdgeInsets.all(widthOfDevice*0.04),
+                                            child: Container(decoration: BoxDecoration(color:squaresColors[i],borderRadius: BorderRadius.circular(5)),
+                                              height: 50, width: 50,child: Padding(
+                                              padding: const EdgeInsets.all(4.0),
+                                              child: Center(child: Text("${squaresRatings[i]}",style: Constants.appbarTxtStyle.copyWith(color: Colors.white,fontSize: 18),)),),),
+                                          ):Padding(
+                                            padding:i==0?EdgeInsets.only(right: widthOfDevice*0.025):EdgeInsets.all(widthOfDevice*0.025),
+                                            child: Container(decoration: BoxDecoration(color:squaresColors[i],borderRadius: BorderRadius.circular(5)),
+                                              height: 50, width: 50,child: Padding(
+                                                padding: const EdgeInsets.all(4.0),
+                                                child: Center(child: Text("${squaresRatings[i]}",style: Constants.appbarTxtStyle.copyWith(color: Colors.white,fontSize: 18),)),),),
+                                          ),
+                                        const Spacer(),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                ///Stars
+                                const SizedBox(height: 10,),
+                                Align(alignment: Alignment.centerLeft,child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                  child: Text('HOTEL CLASS',style:Constants.appbarTxtStyle.copyWith(color: Colors.black,letterSpacing: 1) ,),
+                                )),
+                                FittedBox(
+                                  child: Container(
+                                    width: widthOfDevice,
+                                    child: Row(
+                                      children: [
+                                        const Spacer(),
+                                        for(int i=0;i<5;i++)
+                                          widthOfDevice>400?Padding(
+                                            padding: i==0? EdgeInsets.only(right:widthOfDevice*0.04): EdgeInsets.all(widthOfDevice*0.04),
+                                            child: Center(child:InkWell(onTap: () {
+                                            },child: Image.asset('${starsImages[i]}',fit: BoxFit.cover,width: 50,height: 50,)),),
+                                          ):Padding(
+                                            padding: i==0? EdgeInsets.only(right:widthOfDevice*0.03): EdgeInsets.all(widthOfDevice*0.03),
+                                            child: Center(child:InkWell(onTap: () {
+                                            },child: Image.asset('${starsImages[i]}',fit: BoxFit.cover,width: 50,height: 50,)),),
+                                          ),
+                                        const Spacer(),
 
-                              ///Slider
-                              StatefulBuilder(
-                                builder: (BuildContext context, setState) {
-                                  return Slider(
-                                    min: 26,
-                                    max: 540,
-                                    // divisions: 50,
-                                    thumbColor: Colors.white,
-                                    label: priceValue.round().toString(),
-                                    value: priceValue,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        priceValue = value;
-                                      });
-                                    },
-                                  );
-                                },
-                              ),
-                              const Row(
-                              children: [
-                                Text('26 \$'),
-                                Spacer(),
-                                Text('540 \$'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20,),
+
+                                /// Distance Form
+                                Align(alignment: Alignment.centerLeft,child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                  child: Text('DISTANCE FORM',style:Constants.appbarTxtStyle.copyWith(color: Colors.black,letterSpacing: 1) ,),
+                                )),
+                                const Divider(),
+                                const SizedBox(height: 10,),
+                                /// Location Row
+                                Row(children: [ Text("Location",style: Constants.appbarTxtStyle.copyWith(color: Colors.black,fontWeight: FontWeight.w300),),const Spacer(),Row(children: [Text("City Center",style:Constants.appbarTxtStyle.copyWith(color: Colors.black,fontWeight: FontWeight.w300),),const SizedBox(width: 20,),IconButton(icon: const Icon(Icons.arrow_forward_ios_sharp,size: 24,), onPressed: () {  },)],)],),
+                                const Divider(),
+
 
                               ],
                             ),
-                              const SizedBox(height: 20,),
-                              ///Rating
-                              Align(alignment: Alignment.centerLeft,child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Text('RATING',style:Constants.appbarTxtStyle.copyWith(color: Colors.black,letterSpacing: 1) ,),
-                              )),
-                              FittedBox(
-                                child: SizedBox(
-                                  width: widthOfDevice,
-                                  child: Row(
-                                    children: [
-                                      const Spacer(),
-                                      for(int i=0;i<5;i++)
-                                        widthOfDevice>400?Padding(
-                                          padding:i==0?EdgeInsets.only(right: widthOfDevice*0.04):EdgeInsets.all(widthOfDevice*0.04),
-                                          child: Container(decoration: BoxDecoration(color:squaresColors[i],borderRadius: BorderRadius.circular(5)),
-                                            height: 50, width: 50,child: Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Center(child: Text("${squaresRatings[i]}",style: Constants.appbarTxtStyle.copyWith(color: Colors.white,fontSize: 18),)),),),
-                                        ):Padding(
-                                          padding:i==0?EdgeInsets.only(right: widthOfDevice*0.025):EdgeInsets.all(widthOfDevice*0.025),
-                                          child: Container(decoration: BoxDecoration(color:squaresColors[i],borderRadius: BorderRadius.circular(5)),
-                                            height: 50, width: 50,child: Padding(
-                                              padding: const EdgeInsets.all(4.0),
-                                              child: Center(child: Text("${squaresRatings[i]}",style: Constants.appbarTxtStyle.copyWith(color: Colors.white,fontSize: 18),)),),),
-                                        ),
-                                      const Spacer(),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              ///Stars
-                              const SizedBox(height: 10,),
-                              Align(alignment: Alignment.centerLeft,child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Text('HOTEL CLASS',style:Constants.appbarTxtStyle.copyWith(color: Colors.black,letterSpacing: 1) ,),
-                              )),
-                              FittedBox(
-                                child: Container(
-                                  width: widthOfDevice,
-                                  child: Row(
-                                    children: [
-                                      const Spacer(),
-                                      for(int i=0;i<5;i++)
-                                        widthOfDevice>400?Padding(
-                                          padding: i==0? EdgeInsets.only(right:widthOfDevice*0.04): EdgeInsets.all(widthOfDevice*0.04),
-                                          child: Center(child:InkWell(onTap: () {
-                                          },child: Image.asset('${starsImages[i]}',fit: BoxFit.cover,width: 50,height: 50,)),),
-                                        ):Padding(
-                                          padding: i==0? EdgeInsets.only(right:widthOfDevice*0.03): EdgeInsets.all(widthOfDevice*0.03),
-                                          child: Center(child:InkWell(onTap: () {
-                                          },child: Image.asset('${starsImages[i]}',fit: BoxFit.cover,width: 50,height: 50,)),),
-                                        ),
-                                      const Spacer(),
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 20,),
-
-                              /// Distance Form
-                              Align(alignment: Alignment.centerLeft,child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Text('DISTANCE FORM',style:Constants.appbarTxtStyle.copyWith(color: Colors.black,letterSpacing: 1) ,),
-                              )),
-                              const Divider(),
-                              const SizedBox(height: 10,),
-                              /// Location Row
-                              Row(children: [ Text("Location",style: Constants.appbarTxtStyle.copyWith(color: Colors.black,fontWeight: FontWeight.w300),),const Spacer(),Row(children: [Text("City Center",style:Constants.appbarTxtStyle.copyWith(color: Colors.black,fontWeight: FontWeight.w300),),const SizedBox(width: 20,),IconButton(icon: const Icon(Icons.arrow_forward_ios_sharp,size: 24,), onPressed: () {  },)],)],),
-                              const Divider(),
-
-
-                            ],
                           ),
                         ),
                         /// Bottom Bar with Elevated button of show results
@@ -286,7 +290,7 @@ class ShowModalAppBar extends StatelessWidget {
             blurRadius: 5,
             offset: const Offset(0, 3),
           ),],
-          borderRadius: const BorderRadius.only(topLeft:Radius.circular(20),topRight: Radius.circular(20)),
+          borderRadius: const BorderRadius.only(topLeft:Radius.circular(12),topRight: Radius.circular(12)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
