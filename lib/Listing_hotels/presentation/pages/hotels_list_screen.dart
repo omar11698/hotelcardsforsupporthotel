@@ -35,7 +35,7 @@ class HotelsListScreen extends StatelessWidget {
                       child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                        ShowModalAppBar(widthOfDevice: widthOfDevice),
+                        FilterShowModalAppBar(widthOfDevice: widthOfDevice),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10),
@@ -176,7 +176,7 @@ class HotelsListScreen extends StatelessWidget {
                         ),
                         /// Bottom Bar with Elevated button of show results
                             const Spacer(),
-                            ShowBottomBar(widthOfDevice: widthOfDevice,),
+                            ShowModalBottomBar(widthOfDevice: widthOfDevice,),
 
 
                       ]),
@@ -204,7 +204,7 @@ class HotelsListScreen extends StatelessWidget {
                       physics: const ScrollPhysics(),
                       child: Column(
                         children: [
-                          ShowSortModalAppBar(widthOfDevice: widthOfDevice,),
+                          SortShowModalAppBar(widthOfDevice: widthOfDevice,),
                          for (int i =0; i<7;i++)
                             SortByTile(sortByNames: sortByNames,index: i,),
 
@@ -270,8 +270,8 @@ class SortByTile extends StatelessWidget {
     );
   }
 }
-class ShowModalAppBar extends StatelessWidget {
-  const ShowModalAppBar({
+class FilterShowModalAppBar extends StatelessWidget {
+  const FilterShowModalAppBar({
     super.key,
     required this.widthOfDevice,
   });
@@ -325,8 +325,8 @@ class ShowModalAppBar extends StatelessWidget {
     );
   }
 }
-class ShowSortModalAppBar extends StatelessWidget {
-  const ShowSortModalAppBar({
+class SortShowModalAppBar extends StatelessWidget {
+  const SortShowModalAppBar({
     super.key,
     required this.widthOfDevice,
   });
@@ -371,8 +371,8 @@ class ShowSortModalAppBar extends StatelessWidget {
     );
   }
 }
-class ShowBottomBar extends StatelessWidget {
-  const ShowBottomBar({
+class ShowModalBottomBar extends StatelessWidget {
+  const ShowModalBottomBar({
     super.key,
     required this.widthOfDevice,
   });
