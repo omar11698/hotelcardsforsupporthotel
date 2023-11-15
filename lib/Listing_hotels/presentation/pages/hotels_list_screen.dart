@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hotelcardsforsupporthotel/Listing_hotels/presentation/blocs/isFavCard_bloc/is_favourite_bloc.dart';
+import 'package:hotelcardsforsupporthotel/Listing_hotels/presentation/widgets/hotel_card_widget.dart';
+import 'package:hotelcardsforsupporthotel/core/gloabal_variables.dart';
 import '../../../core/constants.dart';
 import '../blocs/get_hotels_bloc.dart';
 import '../widgets/custom_app_bar.dart';
@@ -13,7 +16,9 @@ class HotelsListScreen extends StatelessWidget {
     double priceValue = 26;
     var heightOfDevice = MediaQuery.of(context).size.height;
     var widthOfDevice = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => IsFavouriteBloc(),
+  child: Scaffold(
       appBar: CurvedAppBar( actions: [
         ///Filter Button
         Spacer(),
@@ -185,7 +190,7 @@ class HotelsListScreen extends StatelessWidget {
                 });
           },
         ),
-        Spacer(),
+        const Spacer(),
         ///sort button
         SortButton(
           onTap: () {
@@ -215,28 +220,34 @@ class HotelsListScreen extends StatelessWidget {
                 });
           },
         ),
-        Spacer(),
+        const Spacer(),
       ]),
       body: Column(
         children: [
           Expanded(
-            child: BlocBuilder<GetHotelsBloc, GetHotelsState>(
-                builder: (context, state) {
-              if (state is GetHotelsSuccess) {
-                return ListView.builder(
-                  itemCount: state.hotels.length,
-                  itemBuilder: (context, index) {
-                    return state.hotels[index];
-                  },
-                );
-              } else {
-                return Container();
-              }
-            }),
+            child: BlocBuilder<IsFavouriteBloc, IsFavouriteState>(
+            builder: (context, state) {
+              return BlocBuilder<GetHotelsBloc, GetHotelsState>(
+                          builder: (context, state) {
+                        if (state is GetHotelsSuccess) {
+                          return ListView.builder(
+                            itemCount: state.hotels.length,
+                            itemBuilder: (context, index) {
+                              return HotelCardWidget(hotel: state.hotels[index]);
+                            },
+                          );
+                        }
+                        else {
+                          return Container();
+                        }
+                      });
+            },
+          ),
           ),
         ],
       ),
-    );
+    ),
+);
   }
 }
 

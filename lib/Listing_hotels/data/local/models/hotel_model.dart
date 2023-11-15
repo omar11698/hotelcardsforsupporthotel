@@ -18,7 +18,7 @@ class HotelModel extends Hotel {
       required this.image,
       required this.reviewScore,
       required this.review,
-      required this.address}) : super(name: '', starts: 0, price: 0, currency: '', image: '', reviewScore: 0, review: '', address: '') ;
+      required this.address}) : super(name: '', starts: 0, price: 0, currency: '', image: '', reviewScore: 0, review: '', address: '',isFavourite: true,index: 0) ;
 
 
   factory HotelModel.fromJson(Map<String, dynamic> json) {

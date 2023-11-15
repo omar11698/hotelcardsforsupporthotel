@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotelcardsforsupporthotel/Listing_hotels/domain/entities/hotel_entity.dart';
 import 'package:hotelcardsforsupporthotel/Listing_hotels/presentation/widgets/hotel_card_widget.dart';
+import 'package:hotelcardsforsupporthotel/core/gloabal_variables.dart';
 
 import 'core/DI.dart';
 import 'core/MultiBlocProvidersList.dart';
@@ -47,7 +48,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  Hotel hotel = const Hotel(name: "Hotel Fairmont Nile City", starts: 5, price: 100, currency: "USD", image: "https://www.tboholidays.com//imageresource.aspx?img=FbrGPTrju5cc0AnFUdZvcaT421NYlIIKB899kblH89FRaXRjheAxF0mYu56nxq7ybSts6ps0s7BI/8ugu12yto0k2T4b0SzW", reviewScore: 8.8, review: "Excellent", address: "12 miles from the center");
+  Hotel hotel = const Hotel(name: "Hotel Fairmont Nile City", starts: 5, price: 100, currency: "USD", image: "https://www.tboholidays.com//imageresource.aspx?img=FbrGPTrju5cc0AnFUdZvcaT421NYlIIKB899kblH89FRaXRjheAxF0mYu56nxq7ybSts6ps0s7BI/8ugu12yto0k2T4b0SzW", reviewScore: 8.8, review: "Excellent", address: "12 miles from the center", isFavourite: true, index: 0);
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -65,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            HotelCardWidget(hotel: hotel),
             const Text(
               'You have pushed the button this many times:',
             ),

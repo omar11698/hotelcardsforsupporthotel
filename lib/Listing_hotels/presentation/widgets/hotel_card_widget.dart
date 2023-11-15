@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hotelcardsforsupporthotel/Listing_hotels/presentation/blocs/isFavCard_bloc/is_favourite_bloc.dart';
+import '../../../core/gloabal_variables.dart';
 import '../../domain/entities/hotel_entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HotelCardWidget extends StatelessWidget {
   final Hotel hotel;
 
-    const HotelCardWidget({super.key, required this.hotel});
+    const HotelCardWidget({super.key, required this.hotel,});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return BlocProvider(
+  create: (context) => IsFavouriteBloc(),
+  child: Padding(
       padding: const EdgeInsets.all(15.0),
       child: Card(
         clipBehavior: Clip.hardEdge,
@@ -20,7 +25,33 @@ class HotelCardWidget extends StatelessWidget {
             // Image
             Stack(children: [
               Image.network(hotel.image,fit: BoxFit.fitWidth,width: double.infinity,height: 150,),
-              Positioned(right: 25,top: 25,child:IconButton(onPressed: (){},icon: hotel.isFavourite?const Icon(Icons.favorite,color: Colors.red,):const Icon(Icons.favorite_border,color: Colors.white,size: 35,))),
+              Positioned(right: 25,top: 25,
+                  child: BlocBuilder<IsFavouriteBloc, IsFavouriteState>(
+                                        builder: (context, state) {
+
+                                          if(state is FavChecked ){
+                                            return IconButton(onPressed: (){
+                                              IsFavouriteBloc().add(FavouriteButtonChecked(isChecked:!state.favourite));
+                                            },
+                                              icon: state.favourite==true? Icon(Icons.favorite,color: Colors.red,): Icon(Icons.favorite,color: Colors.white,),
+                                            );
+                                            }
+
+                                        // else if(state is FavUnchecked){
+                                        //     return IconButton(onPressed: (){
+                                        //     IsFavouriteBloc().add(FavouriteButtonChecked(hotel: hotel.copyWith(isFavourite: !state.favourite), ));
+                                        //     },
+                                        //       icon: state.favourite==true? Icon(Icons.favorite,color: Colors.red,): Icon(Icons.favorite,color: Colors.white,));
+                                        //     }
+
+                                        else{
+                                            return IconButton(onPressed: (){
+                                              IsFavouriteBloc().add(FavouriteButtonChecked(isChecked: false,));
+                                            },
+                                                icon: const Icon(Icons.bug_report,color: Colors.white,size: 35,));
+                                          }
+                                        }
+                      )),
             ],),
             // Stars
             Padding(
@@ -40,7 +71,8 @@ class HotelCardWidget extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),
+);
   }
 
   Row _buildReviewScoreRow() {
