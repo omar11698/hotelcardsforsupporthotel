@@ -1,6 +1,11 @@
+support hotel job assignment
+
+
+Home Screen 
+
+
 <img width="253" alt="Screenshot 2023-12-26 at 1 23 13 PM" src="https://github.com/omar11698/hotelcardsforsupporthotel/assets/69009750/f747bc30-2ba0-4d63-9ec1-4f9b85bc0950">
 
-support hotel job assignment
 
 Filter screen 
 
